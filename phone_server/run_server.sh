@@ -1,0 +1,1 @@
+docker run -it -p 8765:8765 -v /Users/kdi/workspace/gitprj/fms/phone_server:/app --name phone-server-container phone_server /bin/bash

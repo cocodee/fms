@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  zenoh:
+    image: eclipse/zenoh:latest
+    container_name: zenoh-router
+    ports:
+      - "7447:7447"
+      - "8000:8000"
+    volumes:
+      - ./zenoh-data:/zenoh-data
+    command: zenohd --config /zenoh-data/config.json5
+    restart: always
