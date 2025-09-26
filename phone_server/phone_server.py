@@ -50,7 +50,8 @@ class PhoneServer:
         try:
             conf = zenoh.Config()
             if self.zenoh_connect_address:
-                conf.insert_json5(zenoh.config.CONNECT_KEY, json.dumps([self.zenoh_connect_address]))
+                connect_config = {"endpoints": [self.zenoh_connect_address]}
+                conf.insert_json5("connect", json.dumps(connect_config))
             self.z_session = zenoh.open(conf)
             self.z_pub = self.z_session.declare_publisher(self.zenoh_key)
             log.info(f"Zenoh session started and publisher declared for key: {self.zenoh_key}")
@@ -101,7 +102,7 @@ class PhoneServer:
         while True:
             try:
                 message = await websocket.recv()
-                # print("Received from client:", message)
+                log.info(f"Received from client: {message}") # Log the raw message
 
                 data = json.loads(message)
 
@@ -181,7 +182,7 @@ if __name__ == "__main__":
     # 1. Set the Zenoh router address
     #    e.g., "tcp/192.168.1.100:7447"
     #    If None, it will use the default Zenoh discovery
-    ZENOH_ROUTER_ADDRESS = "tcp/127.0.0.1:7447"  # CHANGE THIS TO YOUR ZENOH ROUTER'S ADDRESS
+    ZENOH_ROUTER_ADDRESS = "tcp/74.48.61.171:7447"  # CHANGE THIS TO YOUR ZENOH ROUTER'S ADDRESS
 
     # 2. Create an instance of the server
     #    We can pass a translation_step or use the default value of 0.01
